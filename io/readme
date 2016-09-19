@@ -1,0 +1,110 @@
+RandomAccessFile java提供的对文件内容的访问,即可以读文件,也可以写文件
+RandomAccessFile 支持随机访问文件,可以访问文件的任意位置
+
+java文件模型
+	在硬盘上的文件byte byte 集合
+打开文件
+	有俩中俩种模式 "rw"(读写) "r"(只读)
+	RandomAccessFile raf = new RandomAccessFile(file,"rw");
+	文件指针,打开文件时指针在开头 pointer=0;
+写方法
+	raf.write(int)--->只写一个字节(后8位),同时指针指向下一个位置
+读方法
+ 	int b=raf.read()--->只读一个字节
+关闭
+	读完之后一定要文关闭文件.
+
+	
+
+	
+IO流(输入流,输出流)
+字节流、字符流
+1.字节流
+1)InputStream,OutputStream
+2)EOF = End
+3)输入流
+int b=in.read();读取一个字节无符号填充到int低八位,-1是EOF
+in.read(byte[] buf);读取数据填充到字节数组buf
+in.read(byte[] buf,int start,int size)
+4)输出流
+int b=in.read();读取一个字节无符号填充到int低八位,-1是EOF
+in.read(byte[] buf);读取数据填充到字节数组buf
+in.read(byte[] buf,int start,int size)
+5)FileInputStream--->实现了在文件上读取数据
+6)FileOutputStranm--->实现了向文件中写byte数据
+7)DataOutputStream/DataInputStream 对"流"功能的扩展,
+可以更加方便的向文件中写出内容 int,long,字符等类型数据. 
+DataOutputStream
+	writeInt()/writeDouble()/writeUTF()
+	
+8)BufferedInputStream&BufferedOutputStream
+这俩个流类为 IO 提供了带缓冲区的操作,一般打开文件进行写入或读取操作时,都会加上缓冲
+这种流模式提高了IO的性能
+
+
+2.字符流
+1)编码问题
+2)认识文本和文本文件
+java的文本(char)是16位无符号整数,是字符的unicode编码(双字节)
+文件是byte byte....的数据序列
+文本文件 是文本(char)序列按照某种编码方法(utf-8,gbk...)序列化为byte的存储结构
+3)字符流(Reader、Writer)---->对文本文件的操作
+字符的处理、一次处理一个字符
+字符的底层仍然是基本的字节序列
+字符流的基本实现
+	InputStreamReader 完成byte流解析为char流,按照编码解析
+	OutputStreamWriter 把char流转化为byte流,按照编码解析
+	
+	FileReader/FileWriter //构造方法中,不能指定编码格式
+	
+	字符流的过滤器
+	BuffereReader --->readLine 一次读一行
+	BuffereWriter/PrintWriter ----> 写一行
+	
+	
+对象的序列化,反序列化
+
+1)对象序列化：将Object 转化成Byte序列,反之叫对象的反序列化  
+
+2)序列化流(ObjectOutputStream),是过滤流----writeObject
+  	反序列化流(ObjectInputStream)---readOject
+3)序列化接口(Serializable)
+	对象必须实现序列化接口,才能进行序列化,否则将出现异常
+	这个接口,没有任何方法,只是一个标准
+	
+4)transient 关键字
+	private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException{}
+	private void readObject(java.io.ObjectInputStream s) throws java.io.IOException,ClassNotFoundException{}
+
+分析ArraryList 中序列化和反序列化的方法
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
