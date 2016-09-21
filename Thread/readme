@@ -1,0 +1,34 @@
+线程继承Thread类 或 Runable()接口
+
+线程的创建：
+	Thread()
+	如果是一个类继承了Thread类,创建方法：
+	Thread actor=new Actor();
+	如果是一个类实现了Runnable()接口,创建方法：
+	Thread actress=new Thread(new Actress(),"Mrs.Runable");
+线程的方法：
+	void start()启动线程
+	static void sleep()线程休眠
+	void join() 调用线程 让其他线程等待 直至当前线程终止
+	static void yield() 当前运行的线程释放处理器资源
+	static Thread CurrentThread() 返回当前运行的线程引用
+	
+	void stop() 停止线程 但是不推荐使用
+		
+	interrupt() 中断线程(也是停止线程的方法,也不推荐使用)有点疑问。。。。	
+	调用join(),sleep(),wait()方法时 interrupt()会被清除
+	如果调用interrupt()方法 会抛出IntterruptedException
+
+	正确停止线程的方法
+	用 volatile(可见性) 修饰的boolean 布尔变量 来停止线程
+	例如：
+	volatile boolean keepRuning=true/false;
+	
+互斥  同一时间只能有一个线程操作数据
+同步  
+都是object方法
+Synchronized(){
+wait()
+notifyall();唤醒所有的等待的线程 释放锁
+} 
+	
