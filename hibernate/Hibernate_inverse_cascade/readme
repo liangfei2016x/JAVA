@@ -1,0 +1,59 @@
+Hibernate.cfg.xml 常用配置
+show_sql sql语句输出到控制台
+format_sql 对sql语句进行排版 便于阅读
+hbm2ddl.auto 帮助由java代码生成数据库脚本,进而生成具体的数据表结构。常用的有
+			 create,update,create_drop(先创建后删除),validate(验证表结构)
+default_schema 给表添加默认的数据库名字
+dialect 配置Hibernate数据库方言,Hinernate可针对特殊的数据进行优化	
+ 
+Session简介
+session获取数据库连接 首先要开启事务
+session的方法
+save() update() delete() createQuery()等
+
+如何获取session对象
+1.openSession
+	需要手动关闭会话  每次都是创建一个新的session对象
+2.getCrurrentSession
+	用的现有的session对象 相当于单例模式
+	需要在Hibernate.cfg.xml中配置 如果是本地事务(jdbc事务) 如果是全局事务(jta事务)
+transaction简介
+ 对数据的操作都是封装在事务中,要开启或者关闭事务,session对数据库的操作才会起作用.
+ hibernate对事务的操作不是自动提交,要调用session的doWork方法,设置为自动提交,在调用session.flush()方法
+ 但是不推荐这样做. 
+ 
+ 
+ 主键生成策略
+ native 根据不同的数据库自身的生成策略 生成标识符 例如mysql为increment Oracle为sequence
+ assigned 由java应用程序生成的标识符
+ 单一主键
+
+ 单表查询
+ get(classname,key);
+ 立刻发送sql语句 返回持久对象
+ 不存在 返回 null
+ Load()
+ 返回一个代理对象 
+ 只保存了实体对象的id 直到使用对象的非主键属性时才发送sql语句
+ 不存在抛出ObjectNotFoundException
+ update()
+ delete()
+ 映射类型
+  一对一(one-to-one)
+ 一对多的映射(one-to-many)
+ 多对一(many-to-one)
+ 多对多(many-to-many)
+
+一对多
+java实体类中是在(1)这边设置 多的一边 为集合
+数据库中是把 (1)这边的id属性添加到 多的一边 为外键(外键是在多的一边设置的)
+关联关系的维护 inverse
+inverse="true" 此方放弃关联关系维护
+
+hibernate 中遇到的错误
+1.org.hibernate.InvalidMappingException: Unable to read XML
+把实体类的xml表头修改为：
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+2.Field‘***’doesn’t have a default value错误
+注意native(自动生成)和assigned(人工生成)的区别increment
