@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-9-25 11:23:39 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.liang.model.Order" table="ORDERFORM">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <!-- 多个订单 关联到一个客户-->
+        <many-to-one name="customer" class="com.liang.model.Customer" fetch="join">
+            <column name="CUSTOMER" />
+        </many-to-one>
+        <property name="tradeDate" type="java.util.Date">
+            <column name="TRADEDATE" />
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="STATUS" />
+        </property>
+        <property name="amount" type="java.lang.Double">
+            <column name="AMOUNT" />
+        </property>
+        <!-- lazy 关联对象是否支持延迟加载  -->
+        <set name="orderItems" table="ORDERITEM" inverse="false" lazy="true">
+            <key>
+                <column name="ID" />
+            </key>
+            <one-to-many class="com.liang.model.OrderItem" />
+        </set>
+    </class>
+</hibernate-mapping>
